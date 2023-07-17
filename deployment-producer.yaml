@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: msk-glue-producer
+  namespace: msk-glue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msk-glue-producer
+  template:
+    metadata:
+      labels:
+        app: msk-glue-producer
+    spec:
+      serviceAccountName: msk-glue-producer-sa
+      containers:
+      - name: msk-glue-producer
+        image: fernando1989mg/msk-glue-producer:latest
+        imagePullPolicy: Always
+        env:
+        - name: BOOTSTRAP_SERVERS_CONFIG
+          value: b-2-public.pocmskglue.1teowa.c6.kafka.us-east-1.amazonaws.com:9196,b-1-public.pocmskglue.1teowa.c6.kafka.us-east-1.amazonaws.com:9196
+        - name: SASL_USERNAME
+          value: alice
+        - name: SASL_PASSWORD
+          value: alice-secret
+        - name: AWS_REGION
+          value: us-east-1
+        - name: REGISTRY_NAME
+          value: poc-msk-glue-registry
+        - name: SCHEMA_NAME
+          value: poc-msk-glue-schema
