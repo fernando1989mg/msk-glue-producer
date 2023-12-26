@@ -95,10 +95,11 @@ public class KafkaProducer {
     
     private String getSchemaFromRegistry() {
     	
-    	GlueClient glue = GlueClient.builder()
-    		    .region(Region.of(this.awsRegion))
-    		    .credentialsProvider(WebIdentityTokenFileCredentialsProvider.create())
-    		    .build();
+	GlueClient glue = GlueClient.builder()
+	    .region(Region.of(this.awsRegion))
+	    .credentialsProvider(DefaultCredentialsProvider.create())
+	    .build();
+
 
         GetSchemaVersionRequest request = GetSchemaVersionRequest.builder()
                 .schemaId(
